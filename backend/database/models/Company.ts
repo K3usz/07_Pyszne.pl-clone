@@ -1,9 +1,15 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 
 const sequelize = await initDb()
 
-class Company extends Model { }
+class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> { 
+    declare name: string;
+    declare tags: Array<'sushi' | 'burgery'> | null;
+    declare NIP: string;
+    declare verified: boolean;
+}
+
 Company.init(
     {
         name: {

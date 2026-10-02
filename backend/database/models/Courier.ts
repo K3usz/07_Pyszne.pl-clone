@@ -45,9 +45,11 @@ Courier.init(
             allowNull: false,
             validate: {
                 isAdult(value: Date) {
-                    const year = value.getFullYear();
-                    const month = value.getMonth();
-                    const day = value//TODO skoncz walidacje
+                    const adult = new Date(Date.now())
+                    adult.setFullYear(adult.getFullYear() - 18);
+                    if(value < adult){
+                        throw Error('Registering as courier is available only to adults')
+                    }
                 }
             },
         },
@@ -55,7 +57,11 @@ Courier.init(
             type: DataTypes.ARRAY(DataTypes.ENUM('AM', 'A1', 'A2', 'A', 'B1', 'B', 'B+E')),
             allowNull: true,
             validate: {
-                //bez duplikatow
+                noDuplicates(value: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'>){
+                    if(new Set(value).size != value.length){
+                        throw Error('driving_license array does not accept duplicates')
+                    }
+                }
             }
         },
         //pojazdy
