@@ -1,9 +1,18 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 
 const sequelize = await initDb()
 
-class Courier extends Model { }
+class Courier extends Model<InferAttributes<Courier>, InferCreationAttributes<Courier>> {
+    declare name: string;
+    declare surname: string;
+    declare email: string;
+    declare phone: string;
+    declare nationality: string;
+    declare gender: 'male' | 'female' | 'other' | 'not_specified';
+    declare birthday: Date;
+    declare driving_license: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'> | null;
+}
 Courier.init(
     {
         name: {
@@ -35,14 +44,18 @@ Courier.init(
             type: DataTypes.DATEONLY(),
             allowNull: false,
             validate: {
-                //18 lat
+                isAdult(value: Date) {
+                    const year = value.getFullYear();
+                    const month = value.getMonth();
+                    const day = value//TODO skoncz walidacje
+                }
             },
         },
         driving_license: {
             type: DataTypes.ARRAY(DataTypes.ENUM('AM', 'A1', 'A2', 'A', 'B1', 'B', 'B+E')),
             allowNull: true,
             validate: {
-                //???: bez duplikatow
+                //bez duplikatow
             }
         },
         //pojazdy
