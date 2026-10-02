@@ -1,9 +1,17 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 
 const sequelize = await initDb()
 
-export class Vehicles extends Model { }
+export class Vehicles extends Model<InferAttributes<Vehicles>, InferCreationAttributes<Vehicles>> { 
+    declare vehicle_type: 'bicycle' | ''; 
+    declare brand: string;
+    declare model: string;
+    declare registration_number: string;
+    declare color: string;
+    declare in_use: boolean;
+}
+
 Vehicles.init(
     {
         vehicle_type:{
