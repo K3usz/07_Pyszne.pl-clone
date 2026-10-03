@@ -1,13 +1,19 @@
-import { DataTypes, Model, type InferAttributes, type InferCreationAttributes } from "sequelize";
+import { DataTypes, Model, type HasManyGetAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
+import type { Address } from "./Address.js";
 
 const sequelize = await initDb()
 
-class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> { 
+export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> { 
     declare name: string;
     declare tags: Array<'sushi' | 'burgery'> | null;
     declare NIP: string;
     declare verified: boolean;
+
+    declare getAddress: HasManyGetAssociationsMixin<Address>;
+    declare setAddress: HasManySetAssociationsMixin<Address, number>;
+    
+    
 }
 
 Company.init(

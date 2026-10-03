@@ -3,7 +3,7 @@ import { initDb } from '../database.js';
 
 const sequelize = await initDb()
 
-class Courier extends Model<InferAttributes<Courier>, InferCreationAttributes<Courier>> {
+export class Courier extends Model<InferAttributes<Courier>, InferCreationAttributes<Courier>> {
     declare name: string;
     declare surname: string;
     declare email: string;
