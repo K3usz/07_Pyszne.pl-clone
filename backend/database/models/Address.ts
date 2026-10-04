@@ -1,5 +1,7 @@
-import { DataTypes, Model, type CreationOptional, type InferAttributes, type InferCreationAttributes } from "sequelize";
+import { Association, DataTypes, Model, type CreationOptional, type ForeignKey, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from "../database.js";
+import type { User } from "./User.js";
+import type { Company } from "./Company.js";
 
 
 const sequelize = await initDb();
@@ -11,6 +13,14 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
     declare house_number: string;
     declare apt_number: string;
     declare postal_code: string;
+
+    declare userId: CreationOptional<ForeignKey<number> | null>;
+    declare companyId: CreationOptional<ForeignKey<number> | null>;
+
+    declare static associations: {
+        user: Association<Address, User>;
+        company: Association<Address, Company>;
+    }
 }
 
 Address.init(
@@ -39,7 +49,17 @@ Address.init(
         postal_code: {
             type: DataTypes.STRING(6),
             allowNull: false,
-        }
+        },
+        userId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: true,
+            defaultValue: null,
+        },
+        companyId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: true,
+            defaultValue: null,
+        },
     },
     {
         sequelize,

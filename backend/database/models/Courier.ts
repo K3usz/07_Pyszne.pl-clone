@@ -1,5 +1,6 @@
-import { DataTypes, Model, type InferAttributes, type InferCreationAttributes } from "sequelize";
+import { Association, DataTypes, Model, type HasManyAddAssociationMixin, type HasManyAddAssociationsMixin, type HasManyCountAssociationsMixin, type HasManyCreateAssociationMixin, type HasManyGetAssociationsMixin, type HasManyHasAssociationMixin, type HasManyHasAssociationsMixin, type HasManyRemoveAssociationMixin, type HasManyRemoveAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
+import type { Vehicle } from "./Vehicle.js";
 
 const sequelize = await initDb()
 
@@ -12,6 +13,21 @@ export class Courier extends Model<InferAttributes<Courier>, InferCreationAttrib
     declare gender: 'male' | 'female' | 'other' | 'not_specified';
     declare birthday: Date;
     declare driving_license: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'> | null;
+
+    declare getVehicles: HasManyGetAssociationsMixin<Vehicle>;
+    declare addVehicle: HasManyAddAssociationMixin<Vehicle, number>;
+    declare addVehicles: HasManyAddAssociationsMixin<Vehicle, number>;
+    declare setVehicles: HasManySetAssociationsMixin<Vehicle, number>;
+    declare removeVehicle: HasManyRemoveAssociationMixin<Vehicle, number>;
+    declare removeVehicles: HasManyRemoveAssociationsMixin<Vehicle, number>;
+    declare hasVehicle: HasManyHasAssociationMixin<Vehicle, number>;
+    declare hasVehicles: HasManyHasAssociationsMixin<Vehicle, number>;
+    declare countVehicles: HasManyCountAssociationsMixin;
+    declare createVehicle: HasManyCreateAssociationMixin<Vehicle, 'courierId'>;
+
+    declare static associations: {
+        vehicles: Association<Courier, Vehicle>;
+    }
 }
 Courier.init(
     {
@@ -47,7 +63,7 @@ Courier.init(
                 isAdult(value: Date) {
                     const adult = new Date(Date.now())
                     adult.setFullYear(adult.getFullYear() - 18);
-                    if(value < adult){
+                    if (value < adult) {
                         throw Error('Registering as courier is available only to adults')
                     }
                 }
@@ -57,8 +73,8 @@ Courier.init(
             type: DataTypes.ARRAY(DataTypes.ENUM('AM', 'A1', 'A2', 'A', 'B1', 'B', 'B+E')),
             allowNull: true,
             validate: {
-                noDuplicates(value: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'>){
-                    if(new Set(value).size != value.length){
+                noDuplicates(value: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'>) {
+                    if (new Set(value).size != value.length) {
                         throw Error('driving_license array does not accept duplicates')
                     }
                 }
