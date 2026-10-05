@@ -1,11 +1,12 @@
 import { Association, DataTypes, Model, type ForeignKey, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 import type { Courier } from "./Courier.js";
+import { Vehicle_types } from "../enums.js";
 
 const sequelize = await initDb()
 
 export class Vehicle extends Model<InferAttributes<Vehicle>, InferCreationAttributes<Vehicle>> { 
-    declare vehicle_type: 'bicycle' | ''; 
+    declare vehicle_type: Vehicle_types; 
     declare brand: string;
     declare model: string;
     declare registration_number: string;
@@ -22,7 +23,7 @@ export class Vehicle extends Model<InferAttributes<Vehicle>, InferCreationAttrib
 Vehicle.init(
     {
         vehicle_type:{
-            type: DataTypes.ENUM('bicycle', ''), // TODO wiecej typow pojazdow
+            type: DataTypes.ENUM(...Object.arguments(Vehicle_types)),
             allowNull: false,
         },
         brand:{

@@ -1,6 +1,7 @@
 import { Association, DataTypes, Model, type HasManyAddAssociationMixin, type HasManyAddAssociationsMixin, type HasManyCountAssociationsMixin, type HasManyCreateAssociationMixin, type HasManyGetAssociationsMixin, type HasManyHasAssociationMixin, type HasManyHasAssociationsMixin, type HasManyRemoveAssociationMixin, type HasManyRemoveAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 import type { Vehicle } from "./Vehicle.js";
+import { Driving_license, Genders } from "../enums.js";
 
 const sequelize = await initDb()
 
@@ -10,9 +11,9 @@ export class Courier extends Model<InferAttributes<Courier>, InferCreationAttrib
     declare email: string;
     declare phone: string;
     declare nationality: string;
-    declare gender: 'male' | 'female' | 'other' | 'not_specified';
+    declare gender: Genders;
     declare birthday: Date;
-    declare driving_license: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'> | null;
+    declare driving_license: Array<Driving_license> | null;
 
     declare getVehicles: HasManyGetAssociationsMixin<Vehicle>;
     declare addVehicle: HasManyAddAssociationMixin<Vehicle, number>;
@@ -52,7 +53,7 @@ Courier.init(
             allowNull: false,
         },
         gender: {
-            type: DataTypes.ENUM('male', 'female', 'other', 'not_specified'),
+            type: DataTypes.ENUM(...Object.arguments(Genders)),
             allowNull: false,
             defaultValue: 'not_specified',
         },
@@ -70,17 +71,16 @@ Courier.init(
             },
         },
         driving_license: {
-            type: DataTypes.ARRAY(DataTypes.ENUM('AM', 'A1', 'A2', 'A', 'B1', 'B', 'B+E')),
+            type: DataTypes.ARRAY(DataTypes.ENUM(...Object.values(Driving_license))),
             allowNull: true,
             validate: {
-                noDuplicates(value: Array<'AM' | 'A1' | 'A2' | 'A' | 'B1' | 'B' | 'B+E'>) {
-                    if (new Set(value).size != value.length) {
+                noDuplicates(value: Array<Driving_license>) {
+                    if (value && new Set(value).size != value.length) {
                         throw Error('driving_license array does not accept duplicates')
                     }
                 }
             }
         },
-        //pojazdy
     },
     {
         sequelize,

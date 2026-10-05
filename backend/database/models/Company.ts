@@ -2,13 +2,14 @@ import { Association, DataTypes, Model, type CreationOptional, type ForeignKey, 
 import { initDb } from '../database.js';
 import type { Address } from "./Address.js";
 import type { Owner } from "./Owner.js";
+import type { Tags } from "../enums.js";
 
 const sequelize = await initDb()
 
 export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> { 
     declare id: CreationOptional<number>;
     declare name: string;
-    declare tags: Array<'sushi' | 'burgery'> | null;
+    declare tags: Array<Tags> | null;
     declare NIP: string;
     declare verified: boolean;
     declare ownerId: ForeignKey<number>;
