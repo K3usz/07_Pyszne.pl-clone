@@ -1,11 +1,11 @@
 import { Association, DataTypes, Model, type ForeignKey, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
-import type { Courier } from "./Courier.js";
+import type { CourierModel } from "./Courier.js";
 import { Vehicle_types } from "../enums.js";
 
 const sequelize = await initDb()
 
-export class Vehicle extends Model<InferAttributes<Vehicle>, InferCreationAttributes<Vehicle>> { 
+export class VehicleModel extends Model<InferAttributes<VehicleModel>, InferCreationAttributes<VehicleModel>> { 
     declare vehicle_type: Vehicle_types; 
     declare brand: string;
     declare model: string;
@@ -16,11 +16,11 @@ export class Vehicle extends Model<InferAttributes<Vehicle>, InferCreationAttrib
     declare courierId: ForeignKey<number>;
 
     declare static associations: {
-        courier: Association<Vehicle, Courier>;
+        courierModel: Association<VehicleModel, CourierModel>;
     }
 }
 
-Vehicle.init(
+VehicleModel.init(
     {
         vehicle_type:{
             type: DataTypes.ENUM(...Object.arguments(Vehicle_types)),
@@ -49,6 +49,6 @@ Vehicle.init(
     },
     {
         sequelize,
-        modelName: 'Vehicle',
+        modelName: 'VehicleModel',
     }
 )

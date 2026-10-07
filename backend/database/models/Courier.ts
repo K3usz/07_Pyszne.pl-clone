@@ -1,11 +1,11 @@
 import { Association, DataTypes, Model, type HasManyAddAssociationMixin, type HasManyAddAssociationsMixin, type HasManyCountAssociationsMixin, type HasManyCreateAssociationMixin, type HasManyGetAssociationsMixin, type HasManyHasAssociationMixin, type HasManyHasAssociationsMixin, type HasManyRemoveAssociationMixin, type HasManyRemoveAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
-import type { Vehicle } from "./Vehicle.js";
+import type { VehicleModel } from "./Vehicle.js";
 import { Driving_license, Genders } from "../enums.js";
 
 const sequelize = await initDb()
 
-export class Courier extends Model<InferAttributes<Courier>, InferCreationAttributes<Courier>> {
+export class CourierModel extends Model<InferAttributes<CourierModel>, InferCreationAttributes<CourierModel>> {
     declare name: string;
     declare surname: string;
     declare email: string;
@@ -15,22 +15,22 @@ export class Courier extends Model<InferAttributes<Courier>, InferCreationAttrib
     declare birthday: Date;
     declare driving_license: Array<Driving_license> | null;
 
-    declare getVehicles: HasManyGetAssociationsMixin<Vehicle>;
-    declare addVehicle: HasManyAddAssociationMixin<Vehicle, number>;
-    declare addVehicles: HasManyAddAssociationsMixin<Vehicle, number>;
-    declare setVehicles: HasManySetAssociationsMixin<Vehicle, number>;
-    declare removeVehicle: HasManyRemoveAssociationMixin<Vehicle, number>;
-    declare removeVehicles: HasManyRemoveAssociationsMixin<Vehicle, number>;
-    declare hasVehicle: HasManyHasAssociationMixin<Vehicle, number>;
-    declare hasVehicles: HasManyHasAssociationsMixin<Vehicle, number>;
+    declare getVehicles: HasManyGetAssociationsMixin<VehicleModel>;
+    declare addVehicle: HasManyAddAssociationMixin<VehicleModel, number>;
+    declare addVehicles: HasManyAddAssociationsMixin<VehicleModel, number>;
+    declare setVehicles: HasManySetAssociationsMixin<VehicleModel, number>;
+    declare removeVehicle: HasManyRemoveAssociationMixin<VehicleModel, number>;
+    declare removeVehicles: HasManyRemoveAssociationsMixin<VehicleModel, number>;
+    declare hasVehicle: HasManyHasAssociationMixin<VehicleModel, number>;
+    declare hasVehicles: HasManyHasAssociationsMixin<VehicleModel, number>;
     declare countVehicles: HasManyCountAssociationsMixin;
-    declare createVehicle: HasManyCreateAssociationMixin<Vehicle, 'courierId'>;
+    declare createVehicle: HasManyCreateAssociationMixin<VehicleModel, 'courierId'>;
 
     declare static associations: {
-        vehicles: Association<Courier, Vehicle>;
+        vehicles: Association<CourierModel, VehicleModel>;
     }
 }
-Courier.init(
+CourierModel.init(
     {
         name: {
             type: DataTypes.STRING(255),
@@ -65,7 +65,7 @@ Courier.init(
                     const adult = new Date(Date.now())
                     adult.setFullYear(adult.getFullYear() - 18);
                     if (value < adult) {
-                        throw Error('Registering as courier is available only to adults')
+                        throw Error('Registering as courierModel is available only to adults')
                     }
                 }
             },
@@ -84,6 +84,6 @@ Courier.init(
     },
     {
         sequelize,
-        modelName: 'Courier',
+        modelName: 'CourierModel',
     }
 )

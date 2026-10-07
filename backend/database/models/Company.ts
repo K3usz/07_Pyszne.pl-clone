@@ -1,12 +1,12 @@
 import { Association, DataTypes, Model, type CreationOptional, type ForeignKey, type HasManyGetAssociationsMixin, type HasManySetAssociationsMixin, type HasOneGetAssociationMixin, type HasOneSetAssociationMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
-import type { Address } from "./Address.js";
-import type { Owner } from "./Owner.js";
+import type { AddressModel } from "./Address.js";
+import type { OwnerModel } from "./Owner.js";
 import type { Tags } from "../enums.js";
 
 const sequelize = await initDb()
 
-export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> { 
+export class CompanyModel extends Model<InferAttributes<CompanyModel>, InferCreationAttributes<CompanyModel>> { 
     declare id: CreationOptional<number>;
     declare name: string;
     declare tags: Array<Tags> | null;
@@ -14,16 +14,16 @@ export class Company extends Model<InferAttributes<Company>, InferCreationAttrib
     declare verified: boolean;
     declare ownerId: ForeignKey<number>;
 
-    declare getAddress: HasOneGetAssociationMixin<Address>;
-    declare setAddress: HasOneSetAssociationMixin<Address, number>;
+    declare getAddress: HasOneGetAssociationMixin<AddressModel>;
+    declare setAddress: HasOneSetAssociationMixin<AddressModel, number>;
 
     declare static associations: {
-        owner: Association<Company, Owner>;
-        address: Association<Company, Address>;
+        owner: Association<CompanyModel, OwnerModel>;
+        address: Association<CompanyModel, AddressModel>;
     }
 }
 
-Company.init(
+CompanyModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -51,6 +51,6 @@ Company.init(
     },
     {
         sequelize,
-        modelName: 'Company',
+        modelName: 'CompanyModel',
     }
 )

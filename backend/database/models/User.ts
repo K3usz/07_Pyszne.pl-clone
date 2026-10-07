@@ -1,36 +1,36 @@
 import { Association, DataTypes, Model, type CreationOptional, type HasManyAddAssociationMixin, type HasManyAddAssociationsMixin, type HasManyCountAssociationsMixin, type HasManyCreateAssociationMixin, type HasManyGetAssociationsMixin, type HasManyHasAssociationMixin, type HasManyHasAssociationsMixin, type HasManyRemoveAssociationMixin, type HasManyRemoveAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
 import { AllowNull, AutoIncrement } from "@sequelize/core/decorators-legacy";
-import type { Address } from "./Address.js";
+import type { AddressModel } from "./Address.js";
 
 const sequelize = await initDb()
 
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
     declare id: CreationOptional<number>;
     declare name: string;
     declare surname: string;
     declare email: string;
     declare phone: string;
 
-    declare getAddresses: HasManyGetAssociationsMixin<Address>;
-    declare addAddress: HasManyAddAssociationMixin<Address, number>;
-    declare addAddresses: HasManyAddAssociationsMixin<Address, number>;
-    declare setAddresses: HasManySetAssociationsMixin<Address, number>;
-    declare removeAddress: HasManyRemoveAssociationMixin<Address, number>;
-    declare removeAddresses: HasManyRemoveAssociationsMixin<Address, number>;
-    declare hasAddress: HasManyHasAssociationMixin<Address, number>;
-    declare hasAddresses: HasManyHasAssociationsMixin<Address, number>;
-    declare countAddresses: HasManyCountAssociationsMixin;
-    declare createAddress: HasManyCreateAssociationMixin<Address, 'userId'>;
+    declare getAddressModeles: HasManyGetAssociationsMixin<AddressModel>;
+    declare addAddressModel: HasManyAddAssociationMixin<AddressModel, number>;
+    declare addAddressModeles: HasManyAddAssociationsMixin<AddressModel, number>;
+    declare setAddressModeles: HasManySetAssociationsMixin<AddressModel, number>;
+    declare removeAddressModel: HasManyRemoveAssociationMixin<AddressModel, number>;
+    declare removeAddressModeles: HasManyRemoveAssociationsMixin<AddressModel, number>;
+    declare hasAddressModel: HasManyHasAssociationMixin<AddressModel, number>;
+    declare hasAddressModeles: HasManyHasAssociationsMixin<AddressModel, number>;
+    declare countAddressModeles: HasManyCountAssociationsMixin;
+    declare createAddressModel: HasManyCreateAssociationMixin<AddressModel, 'userId'>;
 
     declare static associations: {
-        addresses: Association<User, Address>;
+        addressModeles: Association<UserModel, AddressModel>;
     };
 }
 
 
-User.init(
+UserModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -57,6 +57,6 @@ User.init(
     },
     {
         sequelize,
-        modelName: 'User',
+        modelName: 'UserModel',
     }
 )

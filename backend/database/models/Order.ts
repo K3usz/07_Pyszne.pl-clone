@@ -4,14 +4,14 @@ import { initDb } from "../database.js";
 
 const sequelize = await initDb();
 
-class Order extends Model<InferAttributes<Order>, InferCreationAttributes<Order>> {
+export class OrderModel extends Model<InferAttributes<OrderModel>, InferCreationAttributes<OrderModel>> {
     declare id: CreationOptional<number>;
 
     declare userId: ForeignKey<number>;
     declare courierId: CreationOptional<ForeignKey<number> | null>;
 }
 
-Order.init(
+OrderModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -21,6 +21,6 @@ Order.init(
         //TODO
     },{
         sequelize,
-        modelName: 'Order',
+        modelName: 'OrderModel',
     }
 )

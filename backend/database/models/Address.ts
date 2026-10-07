@@ -1,12 +1,12 @@
 import { Association, DataTypes, Model, type CreationOptional, type ForeignKey, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from "../database.js";
-import type { User } from "./User.js";
-import type { Company } from "./Company.js";
+import type { UserModel } from "./User.js";
+import type { CompanyModel } from "./Company.js";
 
 
 const sequelize = await initDb();
 
-export class Address extends Model<InferAttributes<Address>, InferCreationAttributes<Address>> {
+export class AddressModel extends Model<InferAttributes<AddressModel>, InferCreationAttributes<AddressModel>> {
     declare id: CreationOptional<number>;
     declare city: string;
     declare street: string;
@@ -18,12 +18,12 @@ export class Address extends Model<InferAttributes<Address>, InferCreationAttrib
     declare companyId: CreationOptional<ForeignKey<number> | null>;
 
     declare static associations: {
-        user: Association<Address, User>;
-        company: Association<Address, Company>;
+        user: Association<AddressModel, UserModel>;
+        company: Association<AddressModel, CompanyModel>;
     }
 }
 
-Address.init(
+AddressModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -63,6 +63,6 @@ Address.init(
     },
     {
         sequelize,
-        modelName: 'Address',
+        modelName: 'AddressModel',
     }
 )

@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize, Model, UniqueConstraintError, type InferAttributes, type InferCreationAttributes } from "sequelize";
+import { Sequelize } from "sequelize";
 
 export async function initDb() {
     const sequelize = new Sequelize({
@@ -19,15 +19,4 @@ export async function initDb() {
     await sequelize.sync({ force: true });
 
     return sequelize;
-}
-
-export function getModels(sequelize: Sequelize) {
-    const { User, Courier, Company, Address, Owner, Vehicle, Order } = sequelize.models;
-    
-    if(User && Courier && Company && Address && Owner && Vehicle && Order){
-        return { User, Courier, Company, Address, Owner, Vehicle, Order };
-    }else{
-        throw 5;
-    }
-
 }

@@ -1,33 +1,33 @@
 import { Association, DataTypes, Model, type CreationOptional, type HasManyAddAssociationMixin, type HasManyAddAssociationsMixin, type HasManyCountAssociationsMixin, type HasManyCreateAssociationMixin, type HasManyGetAssociationsMixin, type HasManyHasAssociationMixin, type HasManyHasAssociationsMixin, type HasManyRemoveAssociationMixin, type HasManyRemoveAssociationsMixin, type HasManySetAssociationsMixin, type InferAttributes, type InferCreationAttributes } from "sequelize";
 import { initDb } from '../database.js';
-import type { Company } from "./Company.js";
+import type { CompanyModel } from "./Company.js";
 
 const sequelize = await initDb()
 
-export class Owner extends Model<InferAttributes<Owner>, InferCreationAttributes<Owner>> {
+export class OwnerModel extends Model<InferAttributes<OwnerModel>, InferCreationAttributes<OwnerModel>> {
     declare id: CreationOptional<number>;
     declare name: string;
     declare surname: string;
     declare email: string;
     declare phone: string;
 
-    declare getCompanies: HasManyGetAssociationsMixin<Company>;
-    declare addCompany: HasManyAddAssociationMixin<Company, number>;
-    declare addCompanies: HasManyAddAssociationsMixin<Company, number>;
-    declare setCompanies: HasManySetAssociationsMixin<Company, number>;
-    declare removeCompany: HasManyRemoveAssociationMixin<Company, number>;
-    declare removeCompanies: HasManyRemoveAssociationsMixin<Company, number>;
-    declare hasCompany: HasManyHasAssociationMixin<Company, number>;
-    declare hasCompanies: HasManyHasAssociationsMixin<Company, number>;
+    declare getCompanies: HasManyGetAssociationsMixin<CompanyModel>;
+    declare addCompanyModel: HasManyAddAssociationMixin<CompanyModel, number>;
+    declare addCompanies: HasManyAddAssociationsMixin<CompanyModel, number>;
+    declare setCompanies: HasManySetAssociationsMixin<CompanyModel, number>;
+    declare removeCompanyModel: HasManyRemoveAssociationMixin<CompanyModel, number>;
+    declare removeCompanies: HasManyRemoveAssociationsMixin<CompanyModel, number>;
+    declare hasCompanyModel: HasManyHasAssociationMixin<CompanyModel, number>;
+    declare hasCompanies: HasManyHasAssociationsMixin<CompanyModel, number>;
     declare countCompanies: HasManyCountAssociationsMixin;
-    declare createCompany: HasManyCreateAssociationMixin<Company, 'ownerId'>;
+    declare createCompanyModel: HasManyCreateAssociationMixin<CompanyModel, 'ownerId'>;
 
     declare static associations: {
-        companies: Association<Owner, Company>;
+        companies: Association<OwnerModel, CompanyModel>;
     }
 }
 
-Owner.init(
+OwnerModel.init(
     {
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
@@ -54,6 +54,6 @@ Owner.init(
     },
     {
         sequelize,
-        modelName: 'Owner',
+        modelName: 'OwnerModel',
     }
 )

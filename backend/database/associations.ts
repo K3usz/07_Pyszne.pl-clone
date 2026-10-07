@@ -1,53 +1,53 @@
-import { Address } from "./models/Address.js";
-import { Company } from "./models/Company.js";
-import { Courier } from "./models/Courier.js";
-import { Owner } from "./models/Owner.js";
-import { User } from "./models/User.js";
-import { Vehicle } from "./models/Vehicle.js";
+import { AddressModel } from "./models/Address.js";
+import { CompanyModel } from "./models/Company.js";
+import { CourierModel } from "./models/Courier.js";
+import { OwnerModel } from "./models/Owner.js";
+import { UserModel } from "./models/User.js";
+import { VehicleModel } from "./models/Vehicle.js";
 
-Company.hasOne(Address, { 
+CompanyModel.hasOne(AddressModel, { 
     sourceKey: 'id',
     foreignKey: 'companyId',
     as: 'address',
 })
 
-Address.belongsTo(Company, { 
+AddressModel.belongsTo(CompanyModel, { 
     targetKey: 'id',
     foreignKey: 'companyId',
     as: 'company',
 })
 
-User.hasMany(Address, {
+UserModel.hasMany(AddressModel, {
     sourceKey: 'id',
     foreignKey: 'userId',
     as: 'addresses',
 })
 
-Address.belongsTo(User, {
+AddressModel.belongsTo(UserModel, {
     targetKey: 'id',
     foreignKey: 'userId',
     as: 'user',
 })
 
-Courier.hasMany(Vehicle, {
+CourierModel.hasMany(VehicleModel, {
     sourceKey: 'id',
     foreignKey: 'courierId',
     as: 'vehicles',
 })
 
-Vehicle.belongsTo(Courier, {
+VehicleModel.belongsTo(CourierModel, {
     targetKey: 'id',
     foreignKey: 'courierId',
     as: 'courier',
 })
 
-Owner.hasMany(Company, {
+OwnerModel.hasMany(CompanyModel, {
     sourceKey: 'id',
     foreignKey: 'ownerId',
     as: 'companies',
 })
 
-Company.belongsTo(Owner, {
+CompanyModel.belongsTo(OwnerModel, {
     targetKey: 'id',
     foreignKey: 'ownerId',
     as: 'owner',
