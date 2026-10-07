@@ -1,10 +1,10 @@
 import express, { response } from "express"
-import { initDb } from "./database/database.js"
+import { getModels, initDb } from "./database/database.js"
 const app = express()
 const port = 3000;
 
 const sequelize = await initDb()
-const { User, Courier, Company } = sequelize.models
+const { User, Courier, Company } = getModels(sequelize);
 
 //app.use(express.json())
 
@@ -15,8 +15,14 @@ app.post('/register_user', async (req, res) => {
         throw Error('Nie podano wszystkich wymaganych argumentów');
     }
 
-    User?.create()
+    await User.create({
+        name: name,
+        surname: surname,
+        email: email,
+        phone: phone,
+    })
 })
+
 
 
 app.listen(port, () => {
